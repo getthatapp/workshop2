@@ -24,12 +24,12 @@ class Query:
         conn.close()
 
     def saveUserToDatabase(username, hashedPassword):
-        saveUser = "INSERT INTO users(username, hashedPassword) VALUES(%s, %s) RETURNING id" % (username, hashedPassword)
-        result = Query.executeQuery(saveUser)
+        saveUser = "INSERT INTO users(username, hashedPassword) VALUES(%s, %s) RETURNING id"
+        result = Query.executeQuery(saveUser, (username, hashedPassword))
         return result
 
     def updateUser(username, hashedPassword, id):
-        updateUser = "UPDATE users SET username=%s, hashedPassword=%s WHERE id=%s" % (username, hashedPassword, id)
-        result = Query.executeUpdate(updateUser)
+        updateUser = "UPDATE users SET username=%s, hashedPassword=%s WHERE id=%s"
+        result = Query.executeUpdate(updateUser, (username, hashedPassword, id))
         return result
 
