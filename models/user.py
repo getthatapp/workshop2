@@ -28,6 +28,6 @@ class User:
         if self.id is None:
             Query.saveUserToDatabase(username, hashedPassword)
         else:
-            Query.updateUser(id, username, hashedPassword)
+            Query.updateUser(username, hashedPassword, self.id)
 
 
