@@ -5,7 +5,7 @@ import string
 ALPHABET = string.ascii_uppercase + string.ascii_lowercase + string.digits
 
 
-def generateSalt():
+def generate_salt():
     """
     Generates a 16-character random salt.
 
@@ -18,7 +18,7 @@ def generateSalt():
     return salt
 
 
-def hashPassword(password, salt=None):
+def hash_password(password, salt=None):
     """
     Hashes the password with salt as an optional parameter.
 
@@ -33,9 +33,12 @@ def hashPassword(password, salt=None):
     :return: hashed password
     """
 
+    if password is None:
+        raise ValueError("Password cannot be empty")
+
     # generate salt if not provided
     if salt is None:
-        salt = generateSalt()
+        salt = generate_salt()
 
     # fill to 16 chars if too short
     if len(salt) < 16:
@@ -46,17 +49,17 @@ def hashPassword(password, salt=None):
         salt = salt[:16]
 
     # use sha256 algorithm to generate haintegersh
-    tSha = hashlib.sha256()
+    t_sha = hashlib.sha256()
 
     # we have to encode salt & password to utf-8, this is required by the
     # hashlib library.
-    tSha.update(salt.encode('utf-8') + password.encode('utf-8'))
+    t_sha.update(salt.encode('utf-8') + password.encode('utf-8'))
 
     # return salt & hash joined
-    return salt + tSha.hexdigest()
+    return salt + t_sha.hexdigest()
 
 
-def checkPassword(passToCheck, hashed):
+def check_password(pass_to_check, hashed):
     """
     Checks the password.
     The function does the following:
@@ -77,13 +80,13 @@ def checkPassword(passToCheck, hashed):
     salt = hashed[:16]
 
     # extract hash to compare with
-    hashToCheck = hashed[16:]
+    hash_to_check = hashed[16:]
 
     # hash password with extracted salt
-    newHash = hashPassword(passToCheck, salt)
+    newHash = hash_password(pass_to_check, salt)
 
     # compare hashes. If equal, return True
-    if newHash[16:] == hashToCheck:
+    if newHash[16:] == hash_to_check:
         return True
     else:
         return False
